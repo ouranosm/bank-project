@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:12.2
+    hostname: postgres
+    container_name: bank-project-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bank_project_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - bank-project-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - bank-project-net
+
+volumes:
+  bank-project-data:
+
+networks:
+  bank-project-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.62.0/24
